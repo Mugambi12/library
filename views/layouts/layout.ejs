@@ -13,17 +13,20 @@
   <script defer src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
   <script defer src="/javascripts/fileUploads.js"></script>
-
+  <link rel="stylesheet" href="/stylesheets/style.css" />
 
   <title>Document</title>
 </head>
 
 <body>
-  <%- include('../partials/header') %>
-  <%- include('../partials/errorMessage') %>
-  <%- body %>
-  <%- include('../partials/footer') %>
-
+  <div class="container">
+    <%- include('../partials/header') %>
+    <div class="inner-container">
+      <%- include('../partials/errorMessage') %>
+      <%- body %>
+    </div>
+    <%- include('../partials/footer') %>
+  </div>
 </body>
 
 </html>
