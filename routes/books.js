@@ -7,25 +7,27 @@ const imageMimeTypes = ["image/jpeg", "image/png", "images/gif"];
 // All Books Route
 router.get("/", async (req, res) => {
   let query = Book.find();
-  if (req.query.title != null && req.query.title != "") {
+  if (req.query.title != null && req.query.title !== "") {
     query = query.regex("title", new RegExp(req.query.title, "i"));
   }
-  if (req.query.publishedBefore != null && req.query.publishedBefore != "") {
+  if (req.query.publishedBefore != null && req.query.publishedBefore !== "") {
     query = query.lte("publishDate", req.query.publishedBefore);
   }
-  if (req.query.publishedAfter != null && req.query.publishedAfter != "") {
+  if (req.query.publishedAfter != null && req.query.publishedAfter !== "") {
     query = query.gte("publishDate", req.query.publishedAfter);
   }
 
   try {
     const books = await query.exec();
-
     res.render("books/index", {
       books: books,
       searchOptions: req.query,
     });
   } catch {
-    res.redirect("/");
+    res.render("books/index", {
+      books: [],
+      errorMessage: "Error retrieving books",
+    });
   }
 });
 
@@ -50,7 +52,7 @@ router.post("/", async (req, res) => {
     const newBook = await book.save();
     res.redirect(`books/${newBook.id}`);
   } catch {
-    renderNewPage(res, book, true);
+    renderNewPage(res, book, "Could not create book");
   }
 });
 
@@ -60,7 +62,10 @@ router.get("/:id", async (req, res) => {
     const book = await Book.findById(req.params.id).populate("author").exec();
     res.render("books/show", { book: book });
   } catch {
-    res.redirect("/");
+    res.render("books/show", {
+      book: null,
+      errorMessage: "Could not find book",
+    });
   }
 });
 
@@ -70,7 +75,10 @@ router.get("/:id/edit", async (req, res) => {
     const book = await Book.findById(req.params.id);
     renderEditPage(res, book);
   } catch {
-    res.redirect("/");
+    res.render("books/edit", {
+      book: null,
+      errorMessage: "Could not find book to edit",
+    });
   }
 });
 
@@ -89,11 +97,14 @@ router.put("/:id", async (req, res) => {
     }
     await book.save();
     res.redirect(`/books/${book.id}`);
-  } catch (error) {
+  } catch {
     if (book != null) {
-      renderEditPage(res, book, true);
+      renderEditPage(res, book, "Could not update book");
     } else {
-      res.redirect("/");
+      res.render("books/edit", {
+        book: null,
+        errorMessage: "Book not found for update",
+      });
     }
   }
 });
@@ -105,52 +116,50 @@ router.delete("/:id", async (req, res) => {
     book = await Book.findById(req.params.id);
     await book.deleteOne();
     res.redirect("/books");
-  } catch (error) {
-    if (book != null) {
-      res.render("books/show", {
-        book: book,
-        errorMessage: "Could not remove book",
-      });
-    } else {
-      res.redirect("/");
-    }
+  } catch {
+    res.render("books/show", {
+      book: book,
+      errorMessage: "Could not remove book",
+    });
   }
 });
 
-async function renderNewPage(res, book, hasError = false) {
-  renderFormPage(res, book, "new", hasError);
+async function renderNewPage(res, book, errorMessage = "") {
+  renderFormPage(res, book, "new", errorMessage);
 }
 
-async function renderEditPage(res, book, hasError = false) {
-  renderFormPage(res, book, "edit", hasError);
+async function renderEditPage(res, book, errorMessage = "") {
+  renderFormPage(res, book, "edit", errorMessage);
 }
 
-async function renderFormPage(res, book, form, hasError = false) {
+async function renderFormPage(res, book, form, errorMessage = "") {
   try {
     const authors = await Author.find({});
     const params = {
       authors: authors,
       book: book,
     };
-    if (hasError) {
-      if (form === "edit") {
-        params.errorMessage = "Error Updating Book";
-      } else {
-        params.errorMessage = "Error Creating Book";
-      }
+    if (errorMessage) {
+      params.errorMessage = errorMessage;
     }
     res.render(`books/${form}`, params);
   } catch {
-    res.redirect("/books");
+    res.redirect("/books", {
+      errorMessage: "Error rendering form page",
+    });
   }
 }
 
 function saveCover(book, coverEncoded) {
-  if (coverEncoded == null) return;
-  const cover = JSON.parse(coverEncoded);
-  if (cover != null && imageMimeTypes.includes(cover.type)) {
-    book.coverImage = new Buffer.from(cover.data, "base64");
-    book.coverImageType = cover.type;
+  if (coverEncoded == null || coverEncoded === "") return;
+  try {
+    const cover = JSON.parse(coverEncoded);
+    if (cover != null && imageMimeTypes.includes(cover.type)) {
+      book.coverImage = new Buffer.from(cover.data, "base64");
+      book.coverImageType = cover.type;
+    }
+  } catch (error) {
+    console.error("Error parsing cover image data: ", error.message);
   }
 }
 
