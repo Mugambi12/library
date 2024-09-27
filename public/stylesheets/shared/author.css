@@ -7,3 +7,25 @@
 .author-name {
   font-size: 1.2rem;
 }
+
+/* Responsive Customizations */
+
+/* For tablets and larger phones (up to 768px) */
+@media (max-width: 768px) {
+  .author-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .author-name {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* For smaller phones (up to 480px) */
+@media (max-width: 480px) {
+  .author-name {
+    font-size: 1rem;
+  }
+}

@@ -44,3 +44,44 @@ body {
 .error-message {
   color: hsl(var(--color-danger-hue), 100%, 50%);
 }
+
+/* Responsive Customizations */
+
+/* For tablets and larger phones (up to 768px) */
+@media (max-width: 768px) {
+  :root {
+    font-size: 16px;
+  }
+
+  .container {
+    max-width: 95%;
+  }
+
+  .inner-container {
+    margin: 0 1rem;
+  }
+
+  .page-header {
+    font-size: 1.3rem;
+  }
+}
+
+/* For smaller phones (up to 480px) */
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .page-header {
+    font-size: 1.2rem;
+  }
+
+  .inner-container {
+    margin: 0 0.5rem;
+  }
+}

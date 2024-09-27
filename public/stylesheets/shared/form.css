@@ -81,3 +81,38 @@
   color: var(--color-text-light);
   font-size: inherit;
 }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-item {
+    margin-left: 0;
+    margin-bottom: 1rem;
+  }
+
+  .form-item input,
+  .form-item select,
+  .form-item textarea {
+    height: auto;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --form-label-font-size: 0.9rem;
+  }
+
+  .form-item > label {
+    font-size: var(--form-label-font-size);
+  }
+
+  .form-item input,
+  .form-item select,
+  .form-item textarea {
+    font-size: 0.9rem;
+  }
+}
