@@ -1,21 +1,25 @@
 @import "shared/variables.css";
 @import "shared/fonts.css";
 @import "shared/header.css";
+@import "shared/footer.css";
 @import "shared/buttons.css";
 @import "shared/form.css";
 @import "shared/author.css";
 @import "shared/books.css";
 
 :root {
-  font-family: "Gotham Rounded";
+  font-family: "Gotham Rounded", sans-serif;
   font-size: 18px;
   color: var(--color-text-light);
 }
 
+/* Resetting box model */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -24,12 +28,15 @@ body {
     var(--color-background-dark),
     var(--color-background-light)
   );
+  width: 100%;
+  height: 100%;
 }
 
 .container {
   max-width: 1200px;
-  margin: auto;
-  margin-bottom: 3rem;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
 }
 
 .inner-container {
@@ -45,9 +52,7 @@ body {
   color: hsl(var(--color-danger-hue), 100%, 50%);
 }
 
-/* Responsive Customizations */
-
-/* For tablets and larger phones (up to 768px) */
+/* Responsive Design */
 @media (max-width: 768px) {
   :root {
     font-size: 16px;
@@ -66,7 +71,6 @@ body {
   }
 }
 
-/* For smaller phones (up to 480px) */
 @media (max-width: 480px) {
   :root {
     font-size: 14px;
@@ -77,11 +81,11 @@ body {
     padding: 0 1rem;
   }
 
-  .page-header {
-    font-size: 1.2rem;
-  }
-
   .inner-container {
     margin: 0 0.5rem;
+  }
+
+  .page-header {
+    font-size: 1.2rem;
   }
 }

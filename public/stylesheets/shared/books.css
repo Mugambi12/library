@@ -9,19 +9,11 @@
   height: calc(var(--book-cover-width) / var(--book-cover-aspect-ratio));
 }
 
-.book-cover-large {
-  --book-cover-width: var(--book-cover-width-large);
-}
-
 .book-grid {
   display: grid;
   justify-content: center;
   grid-gap: 2rem;
   grid-template-columns: repeat(auto-fill, var(--book-cover-width));
-}
-
-.book-grid-large {
-  grid-template-columns: repeat(auto-fill, var(--book-cover-width-large));
 }
 
 .book-details {
@@ -68,53 +60,40 @@
 /* Responsive Styles */
 @media (max-width: 768px) {
   :root {
-    --book-cover-width: 120px; /* Adjust book cover width for smaller screens */
-    --book-cover-width-large: 250px; /* Adjust large book cover width */
+    --book-cover-width: 120px;
+    --book-cover-width-large: 250px;
   }
 
   .book-grid {
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(120px, 1fr)
-    ); /* Change to responsive grid */
-  }
-
-  .book-grid-large {
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(200px, 1fr)
-    ); /* Change to responsive grid for large covers */
+    grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
   }
 
   .book-details {
-    flex-direction: column; /* Stack details vertically */
-    align-items: flex-start; /* Align items to the start */
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .book-details-label {
-    font-size: 1rem; /* Adjust font size for better readability */
+    font-size: 1rem;
   }
 
   .book-details-value {
-    font-size: 0.9rem; /* Adjust font size for better readability */
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
   :root {
-    --book-cover-width: 80px; /* Further adjust book cover width for very small screens */
-    --book-cover-width-large: 200px; /* Further adjust large book cover width */
+    --book-cover-width: 80px;
+    --book-cover-width-large: 200px;
   }
 
   .book-grid {
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(80px, 1fr)
-    ); /* Change to smaller responsive grid */
+    grid-template-columns: repeat(auto-fill, minmax(4px, 1fr));
   }
 
   .book-details-label,
   .book-details-value {
-    font-size: 0.8rem; /* Smaller font size for very small screens */
+    font-size: 0.8rem;
   }
 }

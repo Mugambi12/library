@@ -4,8 +4,20 @@
   --color-danger-hue: calc(
     var(--color-base-hue) - var(--color-danger-hue-offset)
   );
+
   --color-background-dark: hsl(var(--color-base-hue), 100%, 8%);
   --color-background-light: hsl(var(--color-base-hue), 100%, 16%);
   --color-text-light: hsl(var(--color-base-hue), 100%, 87%);
+
   --color-header-background: hsl(var(--color-base-hue), 100%, 12%);
+  --color-footer-background: hsl(var(--color-base-hue), 100%, 10%);
+  --color-footer-text: hsl(var(--color-base-hue), 100%, 80%);
+
+  --color-accent: hsl(320, 100%, 50%);
+  --color-muted: hsl(var(--color-base-hue), 100%, 30%);
+  --gradient-background: linear-gradient(
+    45deg,
+    hsl(var(--color-base-hue), 100%, 12%),
+    hsl(var(--color-base-hue), 100%, 10%)
+  );
 }
